@@ -10,7 +10,19 @@ if (annyang) {
 	    },
 	    'pause': function() {
 	        document.querySelector('video').pause();
-	    }
+	    },
+      'mute' : function(){
+        if (currentVolume >= 0) video.muted = true;
+      },
+      'increase volume' : function(){
+        if (currentVolume < 1) video.volume += 0.1;
+      },
+      'decrease volume' : function(){
+        if (currentVolume > 1) video.volume -= 0.1;
+      },
+      'full screen' : function (){
+        setFullscreenData(!!(document.fullScreen || document.fullscreenElement));
+      }
 	};
 
 
