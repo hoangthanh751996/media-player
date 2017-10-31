@@ -4,49 +4,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>MediaElement.js 3.0 - audio/video unification library</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.6/mediaelementplayer.css">
-   
+    <!-- <link rel="stylesheet" href="mediaelementplayer.min.css"> -->
+    <!-- <link rel="stylesheet" href="mediaelementplayer-legacy.css"> -->
+    <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
 <div id="container">
-  
+
     <div class="players" id="player1-container">
 
         <div class="media-wrapper">
-            <video id="player1" width="540" height="250" style="max-width:100%;" controls preload="none">
+            <video id="player1" controls preload="none">
                 <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/mp4/BigBuckBunny.mp4" type="video/mp4">
                 <source src="http://www.streambox.fr/playlists/test_001/stream.m3u8" type="application/x-mpegURL">
                 <source src="http://la2.indexcom.com/me/flv/guqin.flv" title="Guqin - Ghost" type="video/flv">
             </video>
         </div>
 
-     
+
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.6/mediaelement-and-player.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.6/mediaelement-and-player.min.js"></script> -->
+<script src="mediaelement-and-player.min.js"></script>
+<script src="control-keybroad.js"></script>
 
-<script id="mejs-code">
-	var mediaElements = document.querySelectorAll('video');
-	for (var i = 0, total = mediaElements.length; i < total; i++) {
-		var features = ['prevtrack', 'playpause', 'nexttrack', 'current', 'progress', 'duration', 'speed', 'skipback', 'jumpforward',
-		'markers', 'volume', 'playlist', 'loop', 'shuffle', 'contextmenu'];
-		// To demonstrate the use of Chromecast with audio
-		
-	    new MediaElementPlayer(mediaElements[i], {
-		    // This is needed to make Jump Forward to work correctly
-            pluginPath: 'https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.5/',
-		    shimScriptAccess: 'always',
-		    autoRewind: false,
-		    features: features,
-            currentMessage: 'Now playing:'
-	    });
-    }
-</script>
-
+<iframe width="854" height="480" src="https://www.youtube.com/embed/VY3BZE8z3F0" frameborder="0" gesture="media" allowfullscreen></iframe>
 </body>
 </html>
