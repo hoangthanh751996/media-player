@@ -17,16 +17,16 @@
 	<figure id="videoContainer" data-fullscreen="false">
 		<div class='videocontainer'>
 			<select class='qualitypick' autocomplete='off'>
-				 <option selected>1080p</option>
+				 <option value="1080p">1080p</option>
 				 <option value="720p">720p</option>
-				 <option value="360p">360p</option>
+				 <option value="360p" selected>360p</option>
 			</select>
 			<video id="video" controls preload>
 				<source label="360p" src="https://vjs.zencdn.net/v/oceans.mp4?SD" type="video/mp4" >
 				<source label="720p" src="https://vjs.zencdn.net/v/oceans.mp4?HD" type="video/mp4">
 				<source label="1080p" src="https://vjs.zencdn.net/v/oceans.mp4?4k" type="video/mp4">
 
-		 </video>
+		 	</video>
 		</div>
 
 		<div id="video-controls" class="controls" data-state="hidden">
@@ -43,13 +43,22 @@
 			<button id="voldec" type="button" data-state="voldown">Vol-</button>
 			<button id="fs" type="button" data-state="go-fullscreen">Fullscreen</button>
 			<button id="subtitles" type="button" data-state="subtitles">CC</button>
-
 		</div>
-		<figcaption>
-
-			&copy; copyright Blender Foundation | <a href="http://www.sintel.org">www.sintel.org</a>
-		</figcaption>
 	</figure>
+	<button id="startRecBtn">Start Recognition</button>
+			<button id="stopRecBtn">Stop Recognition</button>
+			<div class="rec-status">Recogniser status:
+				<span id="recStatus">not recognising</span>
+			</div>
+			<ul>
+				<li id="vidPlay">"video play"</li>
+				<li id="vidStop">"video stop"</li>
+				<li id="vidReplay">"video replay"</li>
+				<li id="vidVolOn">"video volume on"</li>
+				<li id="vidVolOff">"video volume off"</li>
+				<li id="vidVolInc">"video volume increase"</li>
+				<li id="vidVolDec">"video volume decrease"</li>
+			</ul>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/popper.min.js"></script>
 	<script src="js/bootstrap/bootstrap.min.js"></script>
@@ -57,10 +66,8 @@
 	<script src="js/video-player.js"></script>
 	<script src="js/mediaelement-and-player.min.js"></script>
 	<!-- Voice control core js -->
-	<script src="js/annyang.js"></script>
-	<script src="js/speechkitt.min.js"></script>
 	<script src="js/control-keybroad.js"></script>
-	<script src="js/voice-control.js"></script>
+	<script src="js/video-speech.js" defer></script>
 	<!-- change quality js -->
 	<script src="js/changeQuality.js"></script>
 	<script src="js/handleKeybroad.js"></script>
