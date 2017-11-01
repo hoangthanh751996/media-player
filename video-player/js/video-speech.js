@@ -1,9 +1,6 @@
 (function() {
 	// Get some required handles
 	var video = document.getElementById('video');
-	// var recStatus = document.getElementById('recStatus');
-	// var startRecBtn = document.getElementById('startRecBtn');
-	// var stopRecBtn = document.getElementById('stopRecBtn');
 
 	// Define a new speech recognition instance
 	var rec = null;
@@ -24,9 +21,7 @@
 		rec.grammars = speechRecognitionList;
 	} 
 	catch(e) {
-    	// document.querySelector('.msg').setAttribute('data-state', 'show');
-    	// startRecBtn.setAttribute('disabled', 'true');
-    	// stopRecBtn.setAttribute('disabled', 'true');
+    	console.log('can not create recogniztion');
     }
     if (rec) {
 		rec.continuous = true; //so that recognition will continue even if the user pauses while speaking
@@ -100,11 +95,6 @@
 	        	}
 	    	}
 		};
-
-		// document.body.onclick = function() {
-		// 	rec.stop();
-		 	rec.start();
-		  	// console.log('Ready to receive a color command.');
-		// }
+	rec.start();
 	}
 })();
