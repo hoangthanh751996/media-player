@@ -8,7 +8,17 @@
 	// Define a new speech recognition instance
 	var rec = null;
 	try {
-		rec = new webkitSpeechRecognition();
+		var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+		var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+		var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+
+		var commands = ['play', 'stop', 'replay', 'volume', 'mute', 'big', 'small'];
+		var grammar = '#JSGF V1.0; grammar commands; public <commands> = ' + commands.join(' | ') + ' ;'
+
+		rec = new SpeechRecognition();
+		var speechRecognitionList = new SpeechGrammarList();
+		speechRecognitionList.addFromString(grammar, 1);
+		rec.grammars = speechRecognitionList;
 	} 
 	catch(e) {
     	document.querySelector('.msg').setAttribute('data-state', 'show');
@@ -45,54 +55,36 @@
 	       		if (e.results[i].isFinal) {
 	       			// If the result is equal to or greater than the required threshold
 	       			console.log('confidence = ' + e.results[i][0].confidence);
+
 	       			if (parseFloat(e.results[i][0].confidence) >= parseFloat(confidenceThreshold)) {
 		       			var str = e.results[i][0].transcript;
 		       			console.log('Recognised: ' + str);
-		       			// If the user said 'video' then parse it further
-		       			if (userSaid(str, 'video')) {
-		       				// Replay the video
-		       				if (userSaid(str, 'replay')) {
-		       					video.currentTime = 0;
-		       					video.play();
-		       					highlightCommand('vidReplay');
-		       				}
-		       				// Play the video
-		       				else if (userSaid(str, 'play')) {
-		       					video.play();
-		       					highlightCommand('vidPlay');
-		       				}
-		       				// Stop the video
-		       				else if (userSaid(str, 'stop')) {
-		       					video.pause();
-		       					highlightCommand('vidStop');
-		       				}
-		       				// If the user said 'volume' then parse it even further
-		       				else if (userSaid(str, 'volume')) {
-		       					// Check the current volume setting of the video
-		       					var vol = Math.floor(video.volume * 10) / 10;
-		       					// Increase the volume
-		       					if (userSaid(str, 'increase')) {
-		       						if (vol >= 0.9) video.volume = 1;
-		       						else video.volume += 0.1;
-		       						highlightCommand('vidVolInc');
-		       					}
-		       					// Decrease the volume
-		       					else if (userSaid(str, 'decrease')) {
-		       						if (vol <= 0.1) video.volume = 0;
-		       						else video.volume -= 0.1;
-		       						highlightCommand('vidVolDec');
-		       					}
-		       					// Turn the volume off (mute)
-		       					else if (userSaid(str, 'off')) {
-		       						video.muted = true;
-		       						highlightCommand('vidVolOff');
-		       					}
-		       					// Turn the volume on (unmute)
-		       					else if (userSaid(str, 'on')) {
-		       						video.muted = false;
-		       						highlightCommand('vidVolOn');
-		       					}
-		       				}
+		    			
+		       			if ( userSaid(str, 'play') ){
+		       				video.play();
+		       			}
+		       			else if ( userSaid(str, 'stop') ){
+		       				video.pause();
+		       			}
+		       			else if ( userSaid(str, 'replay') ){
+		       				video.currentTime = 0;
+		       				video.play();
+		       			}
+		       			else if ( userSaid(str, 'volume') ){
+		       				video.muted = false;
+		       			}
+		       			else if ( userSaid(str, 'mute') ){
+		       				video.muted = true;
+		       			}
+		       			else if ( userSaid(str, 'big') ){
+		       				var vol = Math.floor(video.volume * 10) / 10;
+		       				if (vol >= 0.9) video.volume = 1;
+		       				else video.volume += 0.1;
+		       			}
+		       			else if ( userSaid(str, 'small') ){
+		       				var vol = Math.floor(video.volume * 10) / 10;
+		       				if (vol <= 0.1) video.volume = 0;
+		       				else video.volume -= 0.1;
 		       			}
 	       			}
 	        	}
@@ -100,19 +92,5 @@
 		};
 
 		rec.start();
-	 	recStatus.innerHTML = 'recognising';
-		// // Start speech recognition
-		// var startRec = function() {
-		// 	rec.start();
-		// 	recStatus.innerHTML = 'recognising';
-		// }
-		// // Stop speech recognition
-		// var stopRec = function() {
-		// 	rec.stop();
-		// 	recStatus.innerHTML = 'not recognising';
-		// }
-		// // Setup listeners for the start and stop recognition buttons
-		// startRecBtn.addEventListener('click', startRec, false);
-		// stopRecBtn.addEventListener('click', stopRec, false);
 	}
 })();
