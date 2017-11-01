@@ -25,7 +25,7 @@
     }
     if (rec) {
 		rec.continuous = true; //so that recognition will continue even if the user pauses while speaking
-		rec.interimResults = false;
+		rec.interimResults = false; //Defines whether the speech recognition system should return interim results, or just final results. Final results are good enough for this simple demo
 		rec.lang = ['en', 'en-US'];
 		rec.maxAlternatives = 1;
 
