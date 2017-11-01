@@ -1,9 +1,9 @@
 (function() {
 	// Get some required handles
 	var video = document.getElementById('video');
-	var recStatus = document.getElementById('recStatus');
-	var startRecBtn = document.getElementById('startRecBtn');
-	var stopRecBtn = document.getElementById('stopRecBtn');
+	// var recStatus = document.getElementById('recStatus');
+	// var startRecBtn = document.getElementById('startRecBtn');
+	// var stopRecBtn = document.getElementById('stopRecBtn');
 
 	// Define a new speech recognition instance
 	var rec = null;
@@ -12,7 +12,10 @@
 		var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
 		var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
 
+		
 		var commands = ['play', 'stop', 'replay', 'volume', 'mute', 'big', 'small'];
+		var fuzzyset = FuzzySet(commands);
+
 		var grammar = '#JSGF V1.0; grammar commands; public <command> = ' + commands.join(' | ') + ' ;'
 
 		rec = new SpeechRecognition();
@@ -21,18 +24,18 @@
 		rec.grammars = speechRecognitionList;
 	} 
 	catch(e) {
-    	document.querySelector('.msg').setAttribute('data-state', 'show');
-    	startRecBtn.setAttribute('disabled', 'true');
-    	stopRecBtn.setAttribute('disabled', 'true');
+    	// document.querySelector('.msg').setAttribute('data-state', 'show');
+    	// startRecBtn.setAttribute('disabled', 'true');
+    	// stopRecBtn.setAttribute('disabled', 'true');
     }
     if (rec) {
-		rec.continuous = true;
+		rec.continuous = true; //so that recognition will continue even if the user pauses while speaking
 		rec.interimResults = false;
-		rec.lang = 'en';
+		rec.lang = ['en', 'en-US'];
 		rec.maxAlternatives = 1;
 
 		// Define a threshold above which we are confident(!) that the recognition results are worth looking at 
-		var confidenceThreshold = 0.5;
+		var confidenceThreshold = 0;
 
 		// Simple function that checks existence of s in str
 		var userSaid = function(str, s) {
@@ -60,8 +63,14 @@
 	       			if (parseFloat(e.results[i][0].confidence) >= parseFloat(confidenceThreshold)) {
 		       			var str = e.results[i][0].transcript;
 		       			console.log('Recognised: ' + str);
-		    			
-		       			if ( userSaid(str, 'play') ){
+		    			var match = fuzzyset.get(str);
+		    			if (match) str = match[0][1];
+		    			else str = null;
+		    			console.log('Commands: ' + str);
+		    			if (str == null ) {
+		    				console.log('Cant not recognize commands');
+		    			}
+		       			else if ( userSaid(str, 'play') ){
 		       				video.play();
 		       			}
 		       			else if ( userSaid(str, 'stop') ){
