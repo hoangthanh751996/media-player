@@ -13,7 +13,7 @@
 		var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
 
 		var commands = ['play', 'stop', 'replay', 'volume', 'mute', 'big', 'small'];
-		var grammar = '#JSGF V1.0; grammar commands; public <commands> = ' + commands.join(' | ') + ' ;'
+		var grammar = '#JSGF V1.0; grammar commands; public <command> = ' + commands.join(' | ') + ' ;'
 
 		rec = new SpeechRecognition();
 		var speechRecognitionList = new SpeechGrammarList();
@@ -29,6 +29,7 @@
 		rec.continuous = true;
 		rec.interimResults = false;
 		rec.lang = 'en';
+		rec.maxAlternatives = 1;
 
 		// Define a threshold above which we are confident(!) that the recognition results are worth looking at 
 		var confidenceThreshold = 0.5;
@@ -91,6 +92,10 @@
 	    	}
 		};
 
-		rec.start();
+		// document.body.onclick = function() {
+		// 	rec.stop();
+		 	rec.start();
+		  	// console.log('Ready to receive a color command.');
+		// }
 	}
 })();
