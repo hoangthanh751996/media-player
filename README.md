@@ -2,7 +2,7 @@
 <h1 style="background:black;color:red;font-family:Consolas;padding:10px;border-radius:10px;">Welcome to Media Player</h1>  
 `LIVE STREAM REFERENCE`  
 https://developer.mozilla.org/en-US/Apps/Fundamentals/Audio_and_video_delivery/Setting_up_adaptive_streaming_media_sources  
-https://developer.mozilla.org/en-US/Apps/Fundamentals/Audio_and_video_delivery/Live_streaming_web_audio_and_video
+https://developer.mozilla.org/en-US/Apps/Fundamentals/Audio_and_video_delivery/Live_streaming_web_audio_and_video  
 `STREAMING REFERENCE`  
 https://tip.download.com.vn/tim-hieu-ve-stream-live-stream-va-stream-video-stream-game-5721  
 `SPEECH RECOGNITION REFERENCE`  
