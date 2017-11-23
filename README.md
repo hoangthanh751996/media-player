@@ -19,5 +19,5 @@
 
 - https://msdn.microsoft.com/en-us/library/hh378342(v=office.14).aspx  
 - https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API
-
+- https://www.promptworks.com/blog/speech-recoginition-in-the-browser
 <p>Edited :<font color="red">@</font><font color="red">q</font><font color="green">u</font><font color="black">y</font><font color="yellow">d</font><font color="blue">x</font></p>
