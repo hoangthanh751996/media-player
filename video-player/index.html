@@ -4,22 +4,30 @@
 	<title>Browser Media Player </title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
-		<figure id="videoContainer" data-fullscreen="false">
+	<figure id="videoContainer" data-fullscreen="false">
 		<div class='videocontainer'>
-			<select class='qualitypick' autocomplete='off'>
-				 <option value="1080p">1080p</option>
-				 <option value="720p">720p</option>
-				 <option value="360p" selected>360p</option>
-			</select>
 			<video id="video" controls preload>
 				<source label="360p" src="video/sintel-short.mp4" type="video/mp4" >
 				<source label="720p" src="https://vjs.zencdn.net/v/oceans.mp4?HD" type="video/mp4">
 				<source label="1080p" src="https://vjs.zencdn.net/v/oceans.mp4?4k" type="video/mp4">
 		 	</video>
+		 	<br />
 		</div>
 	</figure>
+	 <select class='langPick' autocomplete='off'>
+		 <option value="vi" selected="">Tiếng Việt</option>
+		 <option value="en">Tiếng Anh</option>
+	</select>
+	<select class='qualitypick' autocomplete='off'>
+		 <option value="1080p">1080p</option>
+		 <option value="720p">720p</option>
+		 <option value="360p" selected>360p</option>
+	</select>
+	<p>En : play, stop, replay, volume, mute,  big,  small</p>
+	<p>Vi : chơi, thôi, lại đi, âm thanh, im,  tăng, giảm</p>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<!-- Voice control core js -->
 	<script src="js/fuzzyset.js"></script>

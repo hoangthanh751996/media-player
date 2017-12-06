@@ -1,38 +1,49 @@
 (function() {
 	// Get some required handles
 	var video = document.getElementById('video');
-
 	// Define a new speech recognition instance
 	var rec = null;
-	try {
-		var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
-		var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
-		var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
 
-		// 
-		// var commands = ['play', 'stop', 'replay', 'volume', 'mute', 'big', 'small'];
-		var commands = ['chơi','thôi','lại đi', 'âm thanh', 'im', 'giảm', 'tăng'];
-		// 
-		var fuzzyset = FuzzySet(commands);
+	var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+	var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+	// var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+	var lang = $('.langPick').val();
+	var commands_en = ['play', 'stop', 'replay', 'volume', 'mute', 'big', 'small'];
+	var commands_vi = ['chơi','thôi','lại đi', 'âm thanh', 'im', 'giảm', 'tăng'];
+	var commands = null;
+	var fuzzyset = null;
+	rec = new SpeechRecognition();
 
-		var grammar = '#JSGF V1.0; grammar commands; public <command> = ' + commands.join(' | ') + ' ;'
-
-		rec = new SpeechRecognition();
+	var setLang = function (language ) {
+		if (lang == 'vi') {
+			commands = commands_vi;
+			rec.lang = ['vi'];
+		}
+		else {
+			commands = commands_en;
+			rec.lang = ['en','en-US'];
+		}
+		fuzzyset = FuzzySet(commands);	
+		var grammar = '#JSGF V1.0; grammar commands; public <command> = ' + commands.join(' | ') + ' ;';
 		var speechRecognitionList = new SpeechGrammarList();
 		speechRecognitionList.addFromString(grammar, 1);
 		rec.grammars = speechRecognitionList;
-	} 
-	catch(e) {
-    	console.log('can not create recogniztion');
-    }
+	}
+
+		
+	
     if (rec) {
 		rec.continuous = false; //so that recognition will continue even if the user pauses while speaking
-		rec.interimResults = false; //Defines whether the speech recognition system should return interim results, or just final results. Final results are good enough for this simple demo
-		rec.lang = ['vi'];
-		// rec.lang = ['en','en-US'];
-		console.log(rec.lang);
+		rec.interimResults = false; //Defines whether the speech recognition system should return interim results,
+									// or just final results. Final results are good enough for this simple demo
+		
 		rec.maxAlternatives = 1;
-
+		setLang(lang);
+		$('.langPick').change(function(){
+			lang = $('.langPick').val();
+			setLang(lang);
+			console.info('language change to ' +lang);
+		});
 		// Define a threshold above which we are confident(!) that the recognition results are worth looking at 
 		var confidenceThreshold = 0.2;
 		// event with recognizetion
@@ -69,6 +80,7 @@
 			}, 3000);
 		}
 		rec.onresult = function(e) {
+			console.log("res on results" + e);
 			// Check each result starting from the last one
 			for (var i = e.resultIndex; i < e.results.length; ++i) {
 				// If this is a final result
@@ -87,15 +99,15 @@
 			    			if (str == null ) {
 			    				console.log('Cant not recognize commands');
 			    			}
+			    			else if ( userSaid(str, 'replay') ){
+			       				video.currentTime = 0;
+			       				video.play();
+			       			}
 			       			else if ( userSaid(str, 'play') ){
 			       				video.play();
 			       			}
 			       			else if ( userSaid(str, 'stop') ){
 			       				video.pause();
-			       			}
-			       			else if ( userSaid(str, 'replay') ){
-			       				video.currentTime = 0;
-			       				video.play();
 			       			}
 			       			else if ( userSaid(str, 'volume') ){
 			       				video.muted = false;
@@ -117,6 +129,7 @@
 	       			}
 	       			// end tiếng anh
 	       			// tiếng việt 
+	       			console.log('rec.lang', rec.lang);
 	       			if (rec.lang == 'vi') {
 		       			if (parseFloat(e.results[i][0].confidence) >= parseFloat(confidenceThreshold)) {
 			       			var str = e.results[i][0].transcript;
